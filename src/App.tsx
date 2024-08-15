@@ -20,18 +20,23 @@ function App() {
   }, []);
 
   function createTodo() {
-    client.models.Todo.create({ content: window.prompt("Todo content") });
+    client.models.Todo.create({
+      content: window.prompt("Todo content"),
+      isDone: false,
+    });
   }
 
   return (
     <Authenticator>
       {({ user }) => (
         <main>
+          {JSON.stringify(user)}
           <h1>{user?.signInDetails?.loginId}'s todos</h1>
           <button onClick={createTodo}>+ new</button>
           <ul>
             {todos.map((todo) => (
               <li onClick={() => deleteTodo(todo.id)} key={todo.id}>
+                <input type="checkbox" checked={todo.isDone} disabled />
                 {todo.content}
               </li>
             ))}
